@@ -1,6 +1,6 @@
 // ## 연산자 - 비트 이동 연산자 (>> >>> <<)
 package bitcamp.java100;
-    public class Test15_12 {
+    public class Test15_12_1 {
         public static void main(String[] args) {
             // >>
             
@@ -50,5 +50,8 @@ package bitcamp.java100;
             System.out.println(v << 4);
             System.out.println();
             
+            for (int i = 0; i < 40; i++) {
+                System.out.printf("%32s, %d\n", Integer.toBinaryString(v << i), v << i);
+            }
         }
     }

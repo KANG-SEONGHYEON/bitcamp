@@ -30,4 +30,4 @@ package bitcamp.java100;
                 System.out.print(arr[8] ? "w" : "-");
                 System.out.print(arr[9] ? "x" : "-");
         }
-        }
+    }
