@@ -30,14 +30,6 @@ javadoc {
     options.encoding = "UTF-8"
 }
 
-compileJava {
-   options.encoding = 'UTF-8'
-}
-
-javadoc {
-    options.encoding = "UTF-8"
-}
-
 repositories {
     jcenter()
 }
