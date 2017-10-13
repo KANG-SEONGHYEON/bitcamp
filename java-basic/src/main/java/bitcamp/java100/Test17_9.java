@@ -16,7 +16,7 @@ public class Test17_9 {
 		s.subjects[2] = math;
 		s.sum = kor + eng + math;
 		s.aver = s.sum / 3f;
-				
+		
 		return s; // 리턴하는 것은 객체의 주소!
 	}
 	
@@ -42,7 +42,6 @@ public class Test17_9 {
     	
     	int result = exp(2, 8);
     	System.out.println(result);
-    	
     }
 }
 
