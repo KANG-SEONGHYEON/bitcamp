@@ -1,4 +1,4 @@
-package prepare;
+package bitcamp.java100;
 
 public class Pre01_1 {
     public static void main(String[] args){
