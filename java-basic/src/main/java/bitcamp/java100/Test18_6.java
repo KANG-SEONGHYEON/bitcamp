@@ -4,7 +4,7 @@
 package bitcamp.java100;
 public class Test18_6 {
 
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) {
 		String email = "hong@test.com";
 		
 		System.out.println(email.matches("1hong@test.com"));
