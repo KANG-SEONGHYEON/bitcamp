@@ -14,16 +14,13 @@ public class Test21_6 {
 			System.exit(1); // JVM을 종료한다.
 		}
 		
-        int i;
-        while(true) {
-        i = Integer.parseInt(console.readLine("숫자? "));
-        
+        long value = Integer.parseInt(console.readLine("숫자? "));
         
         int[] cnt = new int[10];
         
-        while (i > 0) {
-            cnt[i % 10]++;
-            i /= 10;
+        while (value > 0) {
+            cnt[(int)(value % 10)]++;
+            value /= 10;
         }
         
         int x = 0;
@@ -31,6 +28,5 @@ public class Test21_6 {
             System.out.printf("%d = %d\n", x, cnt[x]);
             x++;
 		}
-        }
 	}
 }

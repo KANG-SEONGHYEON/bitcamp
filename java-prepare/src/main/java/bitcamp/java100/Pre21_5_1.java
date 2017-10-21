@@ -6,34 +6,26 @@ package bitcamp.java100;
 
 import java.io.Console;
 
-public class Pre21_6 {
-	
+public class Pre21_5_1 {
 	public static void main(String[] args) {
-		
 		Console console = System.console();
 		if (console == null) {
 			System.err.println("콘솔을 지원하지 않습니다.");
 			System.exit(1);
 		}
-		
-		int i;
-		while(true) {
-			i = Integer.parseInt(console.readLine("숫자? "));
-			
-			int[] cnt = new int[10];
-			
-			while (i > 0) {
-				cnt[i % 10]++;
-				i /= 10;
-			}
-			
-			int x = 0;
-			while (x < cnt.length) {
-				System.out.printf("%d = %d\n", x, cnt[x]);
-				x++;
+
+		int i, j;
+
+		i = Integer.parseInt(console.readLine("구구단? => "));
+
+		if (i >= 10 || i == 1) {
+			System.out.println("2단에서 9단까지만 가능합니다!");
+		} else if (i == 0) {
+			System.out.println("다음에 또 봐요!");
+		} else {
+			for (j = 1; j < 10; j++) {
+				System.out.printf("%d * %d = %d\n", i, j, i * j);
 			}
 		}
-		
 	}
 }
-

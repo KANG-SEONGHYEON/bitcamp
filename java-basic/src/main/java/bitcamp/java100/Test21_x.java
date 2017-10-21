@@ -4,7 +4,7 @@ package bitcamp.java100;
 
 import java.io.Console;
 
-public class Test21_9 {
+public class Test21_x {
 	public static void main(String[] args) {
 		// 콘솔 객체를 준비한다.
 		
