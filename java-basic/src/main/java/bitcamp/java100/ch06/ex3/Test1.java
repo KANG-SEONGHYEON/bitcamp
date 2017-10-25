@@ -1,7 +1,5 @@
 package bitcamp.java100.ch06.ex3;
 
-import java.io.Console;
-
 public class Test1 {
 	public static void main(String[] args) {
 		
