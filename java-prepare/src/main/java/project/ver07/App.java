@@ -1,15 +1,30 @@
+//: ## ver07
+//: - 배열 응용 II
+//: ver06에서 Score 객체를 배열에 저장하라!
+//: 
+//: 여러 명의 성적을 저장하고 다음과 같이 출력하라!
+//:
+//: 출력내용:
+//: ```
+//: 홍길동, 100,  90,  80, 270,  90.0
+//: 임꺽정,  80,  80,  80, 240,  80.0
+//: 유관순, 100, 100, 100, 300, 100.0
+//: ```
+ 
+
 package project.ver07;
 
 public class App {
-	public static void main(String[] args) {
-
+	
+	public static void main(String[] args) { 
+		
 		class Score {
 			String name;
 			int[] subjects = new int[3];
 			int sum;
 			float aver;
 		}
-
+	
 		Score[] scores = {new Score(), new Score(), new Score()};
 		
 		scores[0].name = "홍길동";
@@ -21,6 +36,7 @@ public class App {
 		}
 		scores[0].aver = scores[0].sum / 3f;
 		
+		
 		scores[1].name = "임꺽정";
 		scores[1].subjects[0] = 80;
 		scores[1].subjects[1] = 80;
@@ -29,7 +45,7 @@ public class App {
 			scores[1].sum += sub;
 		}
 		scores[1].aver = scores[1].sum / 3f;
-
+		
 		scores[2].name = "유관순";
 		scores[2].subjects[0] = 100;
 		scores[2].subjects[1] = 100;
@@ -40,8 +56,8 @@ public class App {
 		scores[2].aver = scores[2].sum / 3f;
 		
 		for (Score s : scores) {
-			System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n", 
-					s.name, s.subjects[0], s.subjects[1], s.subjects[2], s.sum, s.aver);
+		System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n", 
+				s.name, s.subjects[0], s.subjects[1], s.subjects[2], s.sum, s.aver);
 		}
 	}
 }

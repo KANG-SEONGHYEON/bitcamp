@@ -1,40 +1,35 @@
-//: ## ver 08
-//: - 클래스를 관리하기 쉽도록 별도의 파일로 분리하다. 
-//: - 메서드를 사용하여 반복 코드를 분리한다.
-//: 
-//: 여러 명의 성적을 저장하고 다음과 같이 출력하라!
-//:
-//: 출력내용:
-//: ```
-//: 홍길동, 100,  90,  80, 270,  90.0
-//: 임꺽정,  80,  80,  80, 240,  80.0
-//: 유관순, 100, 100, 100, 300, 100.0
-//: ```
- 
+// ## 
+
+import java.util.Scanner;
+
 public class App {
-    
-    //: 합계와 평균을 계산하는 코드를 다음과 같이 별도의 메서드로 분리한다.
-
-    
-    //: 성적 데이터를 출력하는 코드를 별도의 메서드로 분리한다.
-
-    
-    //: 성적 데이터를 메모리에 저장하는 코드를 별도의 메서드로 분리한다.
-
-    
-
+	
+	static boolean confirm(String message) {
+		Scanner keyScan = new Scanner(System.in);
+			System.out.print(message);
+			String response = keyScan.nextLine().toLowerCase();
+			
+			if (response.equals("y") || response.equals("yes"))
+				return true;
+			return false;
+	}
+	
     public static void main(String[] args) {
-        
-        Score[] scores = {new Score(), new Score(), new Score()};
-        
-        Score.init(scores[0], "홍길동", 100, 90, 80);
-        Score.init(scores[1], "임꺽정", 80, 80, 80);
-        Score.init(scores[2], "유관순", 100, 100, 100);
-        
-        //: 학생 성적을 출력한다.
-        for (Score s : scores) {
-            Score.print(s);
-        }
+		ScoreDao scoreDao = new ScoreDao();
+    	
+    	while (true) {
+		Score score = new Score(); 
+		score.input();
+	
+		scoreDao.add(score);
+		
+		if (!confirm("계속하시겠습니까?"))
+			break;
+		}
+		
+		for (int i = 0; i < scoreDao.size(); i++) {
+			scoreDao.get(i).print();
+		}
     }
 }
 
