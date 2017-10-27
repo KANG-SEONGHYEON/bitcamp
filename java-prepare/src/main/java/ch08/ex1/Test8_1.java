@@ -1,0 +1,30 @@
+// 캡슐화 활용 - 접근 제한하기 전
+// 
+package ch08.ex1;
+
+class Score {
+	String name;
+	int kor;
+	int eng;
+	int math;
+	int sum;
+	float aver;
+}
+
+public class Test8_1 {
+	public static void main(String[] args) {
+		Score s = new Score();
+		s.name = "홍길동";
+		s.kor = 100;
+		s.eng = 90;
+		s.math = 80;
+		
+		s.sum = 280;
+		s.aver = s.sum / 3f;
+		
+		// sum에 직접 잘못된 값을 넣어서 잘못된 결과가 도출됨.
+
+		System.out.printf("%s, %d, %d, %d, %d, %f\n", 
+				s.name, s.kor, s.eng, s.math, s.sum, s.aver);
+	}
+}
