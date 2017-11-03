@@ -1,228 +1,166 @@
-//: ## ver 18
-//: - 기능 추가: 변경, 삭제 기능을 추가하라!
-//: - 요구사항
-//:   - App.java 클래스의 주석을 확인하라!
+//: ## ver 23
+//: - 게시판 기능을 추가하라!
+//: - 자세한 요구사항은 App.java의 주석을 확인하라!
+//: - 학습목표
+//:   - 클래스를 만들고 메서드를 정의하는 것을 연습한다.
+//:   - 복/붙 연습!
 //: 
 //: 
+//: 요구사항 
 /*
+게시판> add
+번호? 1
+제목? aaa
+내용? aaaa
+입력하였습니다.
 
-성적관리> add
-이름? 홍길동
-국어? 100
-영어? 100
-수학? 100
-계속 입력하시겠습니까?(Y/n) <== 'Y' 또는 'y', 그냥 엔터치기 
-이름? 임꺽정
-국어? 90
-영어? 90
-수학? 90
-계속 입력하시겠습니까?(Y/n) n
+게시판> add
+번호? 1
+이미 등록된 번호입니다.
 
-성적관리> list
-홍길동, 300, 100.0
-임꺽정, 270, 90.0
+게시판> list
+1, aaa, 2017-11-3, 0
+2, bbb, 2017-11-3, 2
 
-성적관리> view
-이름? 홍길동
-홍길동, 100, 100, 100, 300, 100.0
+게시판> view
+번호? 1
+제목: aaa
+내용: aaaa
+등록일: 2017-11-3
+조회수: 1   <== view 할 때 마다 해당 게시물의 조회수는 증가한다.
 
-성적관리> view
-이름? 우헤헤
-'우헤헤'의 성적 정보가 없습니다.
-성적관리> delete
-이름? 홍길동
+게시판> view
+번호? 9
+9번 게시물이 없습니다.
+
+게시판> delete
+번호? 1
 정말 삭제하시겠습니까?(y/N) y <== 'Y', 'y'를 입력해야 삭제된다.
 삭제하였습니다.
 
-성적관리> delete
-이름? 임꺽정
+게시판> delete
+번호? 1
 정말 삭제하시겠습니까?(y/N) n
 삭제취소하였습니다.
 
-성적관리> delete
-이름? 우헤헤
-'우헤헤'의 성적 정보가 없습니다.
+게시판> delete
+번호? 9
+9번 게시물이 없습니다.
 
-성적관리> update
-이름? 홍길동
-국어?(100) 80    <== 엔터를 치면 원래 점수 유지
-영어?(100) 
-수학?(100) 90
+게시판> update
+번호? 1
+제목?(aaa) xxxx    <== 엔터를 치면 원래 값 유지
+내용? 2222  <== 입력하지 않고 그냥 엔터를 치면 빈 문자열이 내용이 된다.
 변경하시겠습니까?(y/N) y<== 'Y', 'y'를 입력해야 변경된다.
-변경하였습니다.
+변경하였습니다.   <== 변경할 때 등록일을 현재 날짜 및 시작으로 바꿔라
 
-성적관리> update
-이름? 홍길동
-국어?(100) 80    <== 엔터를 치면 원래 점수 유지
-영어?(100) 
-수학?(100) 90
+게시판> update
+번호? 1
+제목?(aaa) xxxx    <== 엔터를 치면 원래 값 유지
+내용? 2222  <== 입력하지 않고 그냥 엔터를 치면 빈 문자열이 내용이 된다.
 변경하시겠습니까?(y/N) n<== 'Y', 'y'를 입력해야 변경된다.
 변경취소하였습니다.
 
-성적관리> update
-이름? 우헤헤
-'우헤헤'의 성적 정보가 없습니다.
+게시판> update
+번호? 9
+9번 게시물이 없습니다.
 
-성적관리> remove
+게시판> remove
 수행할 수 없는 명령입니다.
 
-성적관리> quit
-프로그램을 종료합니다.
+게시판> main
 
+명령>
  */
 package java100.app;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
  
-// 9단계:
-// => 성적 변경 기능 중에서 사용자가 점수를 입력할 때
-//    엔터를 입력하거나 숫자가 아닌 값을 입력할 경우 
-//    예외 처리한다.
-//    Score 클래스의 update()
+// 
+// 1) 회원 정보를 담을 메모리를 설계한다.
+//    회원 정보를 담을 새로운 데이터 타입을 정의한다.
+//    => Member 클래스 정의
+//
+// 2) 회원관리 메뉴를 처리할 컨트롤러 클래스를 만든다.
+//    => MemberController 클래스 정의
+//    => execute() 메서드를 만든다.
+//    => 일단 list 명령만 처리한다.
+// 
+// 3) Member 클래스 list 명령을 처리할 때 호출될 print() 추가한다.
+// 4) App 클래스에 회원관리 메뉴에 대한 코드를 추가한다.
+// 5) 회원관리의 add 기능 추가한다.
+// 6) 회원관리의 view 기능 추가한다.
+// 7) 회원관리의 update 기능 추가한다.
+// 8) 회원관리의 delete 기능 추가한다.
+// 
+// 복사/붙여넣기를 한 후 변경을 완료하면, 
+// 나머지 세세한 요구사항을 처리한다.
+// 
+// 9) 추가할 때 이메일 중복여부를 검사한다.
+// 
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
-    
-    static String prompt(String message) {
-        System.out.print(message);
-        return keyScan.nextLine();
-    }
-    
-    static boolean confirm(String message) {
-        System.out.print(message);
-        String response = keyScan.nextLine().toLowerCase();
-        
-        if (response.equals("y") || 
-                response.equals("yes") || 
-                response.equals("")) {
-            return true;
-        }
-        return false;
-    }
-    
-    static boolean confirm2(String message) {
-        System.out.print(message);
-        String response = keyScan.nextLine().toLowerCase();
-        
-        if (response.equals("n") || 
-                response.equals("no") || 
-                response.equals("")) {
-            return false;
-        }
-        return true;
-    }
+    static ScoreController scoreController = new ScoreController();
+    static MemberController memberController = new MemberController();
+    static BoardController boardController = new BoardController();
     
     public static void main(String[] args) {
-        ArrayList<Score> list = new ArrayList<>();
-        Iterator<Score> iterator;
         
         loop:
         while (true) {
-            System.out.print("성적관리> ");
-            String input = keyScan.nextLine();
+            System.out.print("명령> ");
+            String[] input = keyScan.nextLine().toLowerCase().split(" ");
             
-            String name = null;
-            Score score = null;
-            
-            switch (input) {
-            case "add":
-                System.out.println("[학생 등록]");
-                
-                while (true) {
-                    score = new Score(); // 성적 데이터를 저장할 빈 객체를 준비한다.
-                    score.input(); // 사용자로부터 입력받은 데이터를 빈 객체에 저장한다.
-                    
-                    list.add(score);
-                    
-                    if (!confirm("계속하시겠습니까?(Y/n) "))
-                        break;
+            try {
+                switch (input[0]) {
+                case "menu": doMenu(); break;
+                case "help": doHelp(); break;
+                case "quit": doQuit(); break loop;
+                case "go": doGo(input[1]); break;
+                default:
+                    doError();
                 }
-                
-                break;
-            case "list":
-                System.out.println("[학생 목록]");
-                
-                iterator = list.iterator();
-                while (iterator.hasNext()) {
-                    iterator.next().print();
-                }
-                
-                break;
-            case "view":
-                System.out.println("[학생 정보]");
-                name = prompt("이름? ");
-                
-                iterator = list.iterator();
-                while (iterator.hasNext()) {
-                    Score temp = iterator.next();
-                    if (temp.name.equals(name)) {
-                        score = temp;
-                        break;
-                    }
-                }
-                
-                if (score == null) {
-                    System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-                } else {
-                    score.printDetail();
-                }
-                break;
-            case "update":
-                System.out.println("[학생 정보 변경]");
-                name = prompt("이름? ");
-                
-                iterator = list.iterator();
-                while (iterator.hasNext()) {
-                    Score temp = iterator.next();
-                    if (temp.name.equals(name)) {
-                        score = temp;
-                        break;
-                    }
-                }
-                
-                if (score == null) {
-                    System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-                } else {
-                    score.update();
-                }
-                
-                break;
-            case "delete":
-                System.out.println("[학생 삭제]");
-                name = prompt("이름? ");
-                
-                iterator = list.iterator();
-                while (iterator.hasNext()) {
-                    Score temp = iterator.next();
-                    if (temp.name.equals(name)) {
-                        score = temp;
-                        break;
-                    }
-                }
-                
-                if (score == null) {
-                    System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-                } else {
-                    if (confirm2("정말 삭제하시겠습니까?(y/N) ")) {
-                        list.remove(score);
-                        System.out.println("삭제하였습니다.");
-                    } else {
-                        System.out.println("삭제를 취소하였습니다.");
-                    }
-                }
-                break;
-            case "quit":
-                System.out.println("프로그램을 종료합니다.");
-                break loop;
-            default:
-                System.out.println("실행할 수 없는 명령입니다.");
+            } catch (Exception e) {
+                System.out.println("명령 처리 중 오류 발생!");
+                e.printStackTrace();
             }
-            
             System.out.println();
+        } // while
+        
+    }
+    
+    private static void doGo(String menuNo) {
+        
+        switch (menuNo) {
+        case "1": scoreController.execute(); break;
+        case "2": memberController.execute(); break;
+        case "3": boardController.execute(); break;
+        default:
+            System.out.println("해당 번호의 메뉴가 없습니다.");
         }
         
+    }
+
+    private static void doHelp() {
+        System.out.println("[명령]");
+        System.out.println("menu        - 메뉴 목록 출력한다.");
+        System.out.println("go 번호     - 메뉴로 이동한다.");
+        System.out.println("quit        - 프로그램을 종료한다.");
+    }
+
+    private static void doMenu() {
+        System.out.println("1 성적관리");
+        System.out.println("2 회원관리");
+        System.out.println("3 게시판");
+    }
+
+    private static void doError() {
+        System.out.println("실행할 수 없는 명령입니다.");
+    }
+
+    private static void doQuit() {
+        System.out.println("프로그램을 종료합니다.");
     }
 }
 
