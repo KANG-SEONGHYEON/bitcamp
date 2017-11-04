@@ -5,8 +5,6 @@ import java.util.Scanner;
 public class Prompts {
 	static Scanner keyScan = new Scanner(System.in);
 	
-	
-	
 	public static String input(String message) {
 		System.out.print(message);
 		return keyScan.nextLine();
@@ -31,5 +29,4 @@ public class Prompts {
 		}
 		return true;
 	} // confirm2 method
-	
 }

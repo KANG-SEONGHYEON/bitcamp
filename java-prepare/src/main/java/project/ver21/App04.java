@@ -41,15 +41,15 @@ import java.util.Scanner;
  *    별도의 클래스로 분리한다. (Prompts 클래스)
  */
 
-// 5단계
-// => go 1 명령을 처리한다.
-public class App {
+// 4단계
+// => go 명령을 처리한다.
+public class App04 {
 	
 	static Scanner keyScan = new Scanner(System.in);
-	static ScoreController scoreController = new ScoreController();
-	
+
 	public static void main(String[] args) {
-		
+		ScoreController scoreController = new ScoreController();
+
 		loop:
 		while (true) {
 			System.out.print("명령> ");
@@ -67,6 +67,15 @@ public class App {
 			} catch (Exception e) {
 				System.out.println("명령 처리 중 오류 발생!");
 			}
+			/*
+			 * System.out.print("성적관리> "); String input = keyScan.nextLine();
+			 * 
+			 * // 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다. switch (input) { case "add":
+			 * scoreController.doAdd(); break; case "list": scoreController.doList(); break;
+			 * case "view": scoreController.doView(); break; case "update":
+			 * scoreController.doUpdate(); break; case "delete": scoreController.doDelete();
+			 * break; case "quit": doQuit(); break loop; default: doError(); }
+			 */
 			System.out.println();
 		} // while
 
@@ -75,22 +84,7 @@ public class App {
 	private static void doGo(String menuNo) {
 		switch (menuNo) {
 		case "1":
-			loop:
-			while (true) {
-				System.out.print("성적관리> ");
-				String input = keyScan.nextLine();
-				
-				// 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다.
-				switch (input) {
-				case "add": scoreController.doAdd(); break;
-				case "list": scoreController.doList(); break;
-				case "view": scoreController.doView(); break;
-				case "update": scoreController.doUpdate(); break;
-				case "delete": scoreController.doDelete(); break;
-				case "main": break loop;
-				default: doError();
-				}
-			}
+			System.out.println("성적관리");
 			break;
 		case "2":
 			System.out.println("회원관리");
