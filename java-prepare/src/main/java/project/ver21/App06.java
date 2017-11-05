@@ -43,7 +43,7 @@ import java.util.Scanner;
 
 // 6단계
 // => go 1 명령을 처리하는 코드를 별도의 메서드로 분리한다.
-public class App {
+public class App06 {
 	
 	static Scanner keyScan = new Scanner(System.in);
 	static ScoreController scoreController = new ScoreController();

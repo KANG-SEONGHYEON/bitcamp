@@ -1,3 +1,5 @@
+// 이 파일은 연습장 용도입니다.
+
 import java.sql.Date;
 import java.util.Scanner;
 
