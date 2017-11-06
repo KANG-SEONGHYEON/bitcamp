@@ -5,16 +5,16 @@
 //:   - 추상 클래스의 활용법을 익힌다.
 
 //: 
-package project.ver28;
+package project.ver28_before;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
-import project.ver28.control.BoardController;
-import project.ver28.control.GenericController;
-import project.ver28.control.MemberController;
-import project.ver28.control.ScoreController;
-import project.ver28.domain.Room;
+import project.ver28_before.control.BoardController;
+import project.ver28_before.control.GenericController;
+import project.ver28_before.control.MemberController;
+import project.ver28_before.control.ScoreController;
+import project.ver28_before.domain.Room;
 
 //강의실(지역, 강의실번호, 수용인원) 관리 기능 추가
 //

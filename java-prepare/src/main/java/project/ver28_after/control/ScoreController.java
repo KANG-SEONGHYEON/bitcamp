@@ -1,9 +1,9 @@
-package project.ver28.control;
+package project.ver28_after.control;
 
 import java.util.Iterator;
 
-import project.ver28.domain.Score;
-import project.ver28.util.Prompts;
+import project.ver28_after.domain.Score;
+import project.ver28_after.util.Prompts;
 
 public class ScoreController extends GenericController<Score> {
     @Override

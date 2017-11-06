@@ -2,8 +2,7 @@
 //: - 모든 필드에 대해 외부 접근을 차단한다.
 //:   단 자식 클래스에서는 직접 접근할 수 있게 허락한다.
 //: 
-package project.ver28.domain;
-import java.util.Scanner;
+package project.ver28_before.domain;
 
 public class Score {  
     

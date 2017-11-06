@@ -1,10 +1,10 @@
-package project.ver28.control;
+package project.ver28_after.control;
 
 import java.sql.Date;
 import java.util.Iterator;
 
-import project.ver28.domain.Board;
-import project.ver28.util.Prompts;
+import project.ver28_after.domain.Board;
+import project.ver28_after.util.Prompts;
 
 public class BoardController extends GenericController<Board> {
 	@Override

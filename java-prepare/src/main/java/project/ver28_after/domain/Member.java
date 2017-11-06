@@ -1,4 +1,4 @@
-package project.ver28.domain;
+package project.ver28_after.domain;
 
 public class Member {
 	protected String name;

@@ -1,7 +1,6 @@
-package project.ver28.domain;
+package project.ver28_before.domain;
 
 import java.sql.Date;
-import java.util.Scanner;
 
 public class Board {
 	protected int no;
