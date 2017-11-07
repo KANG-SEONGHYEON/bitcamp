@@ -1,30 +1,23 @@
-//: ## ver 29 before
-//: - 컨트롤러 클래스들의 공통 점을 찾아 일반화시켜라!
-//: - 즉 상속의 generalization을 수행하라!
-//: - 학습목표
-//:   - 상속의 generalization을 이용해 수퍼 클래스를 정의하는 방법을 익힌다.
-//:   - 수퍼 클래스를 정의했을 때의 이점을 이해한다.
-//: 
+// ver31
 package java100.app;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
 import java100.app.control.BoardController;
+import java100.app.control.Controller;
 import java100.app.control.GenericController;
 import java100.app.control.MemberController;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
  
-// => 강의실(지역, 강의실 번호, 수용인원) 관리 기능을 추가한다.
-
-// 추상 메서드 적용 후
+// 인터페이스 정의
 
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
     
-    static HashMap<String,GenericController<?>> controllerMap = 
+    static HashMap<String,Controller> controllerMap = 
             new HashMap<>();
     
     public static void main(String[] args) {
@@ -34,7 +27,9 @@ public class App {
         controllerMap.put("2", new MemberController());
         controllerMap.put("3", new BoardController());
         
-        controllerMap.put("4", new RoomController());
+        // RoomController는 GenericController를 상속받지 않았다.
+        // 그래서 controllerMap에 저장할 수 없다.
+        controllerMap.put("4", new RoomController()); // 컴파일 오류! 
         
         loop:
         while (true) {
@@ -61,7 +56,7 @@ public class App {
     
     private static void doGo(String menuNo) {
         
-        GenericController<?> controller = controllerMap.get(menuNo);
+        Controller controller = controllerMap.get(menuNo);
         
         if (controller == null) {
             System.out.println("해당 번호의 메뉴가 없습니다.");
