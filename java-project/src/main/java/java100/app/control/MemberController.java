@@ -1,12 +1,60 @@
 package java100.app.control;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import java100.app.domain.Member;
+import java100.app.domain.Score;
 import java100.app.util.Prompts;
 
 public class MemberController extends GenericController<Member> {
     
+	private String dataFilePath;
+	
+	public MemberController(String dataFilePath) {
+		this.dataFilePath = dataFilePath;
+		this.init();
+	}
+	
+	@Override
+	public void destroy() {
+		try (FileWriter out = new FileWriter(this.dataFilePath);) {
+			for (Member member : this.list) {
+				out.write(member.toCSVString() + "\n");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void init() {
+		try (FileReader in = new FileReader(this.dataFilePath); 
+				Scanner lineScan = new Scanner(in);) { // 스캐너 파라미터로 readable을 구현한 것을 넣을 수 있다.
+
+			/* StringBuffer buf = new StringBuffer(); */
+			String csv = null;
+			while (lineScan.hasNextLine()) {
+				csv = lineScan.nextLine();
+				
+
+					try {
+						list.add(new Member(csv));
+					} catch (CSVFormatException e) {
+						System.err.println("CSV 데이터 형식 오류!");
+						e.printStackTrace();
+					}
+				
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
     // 수퍼 클래스 GenericController에서 상속 받은 메서드를 
     // 재정의하기 때문에 오버라이딩을 검증하도록 애노테이션을 붙인다.
     @Override    
