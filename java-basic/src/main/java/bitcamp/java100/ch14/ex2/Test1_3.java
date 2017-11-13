@@ -1,4 +1,4 @@
-// 버퍼 사용 전
+// 버퍼 사용 후
 package bitcamp.java100.ch14.ex2;
 
 import java.io.FileInputStream;

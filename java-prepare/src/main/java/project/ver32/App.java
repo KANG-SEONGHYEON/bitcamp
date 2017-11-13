@@ -36,7 +36,7 @@ public class App {
     public static void main(String[] args) {
         
         // go 명령어를 수행할 컨트롤러를 등록한다.
-        controllerMap.put("1", new ScoreController());
+        controllerMap.put("1", new ScoreController(null));
         controllerMap.put("2", new MemberController());
         controllerMap.put("3", new BoardController());
         
