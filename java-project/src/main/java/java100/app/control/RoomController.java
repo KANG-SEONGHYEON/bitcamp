@@ -1,8 +1,11 @@
 package java100.app.control;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -11,7 +14,9 @@ import java100.app.domain.Room;
 import java100.app.util.Prompts;
 
 public class RoomController extends ArrayList<Room> implements Controller {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	Scanner keyScan = new Scanner(System.in);
 	
 	private String dataFilePath;
@@ -23,11 +28,13 @@ public class RoomController extends ArrayList<Room> implements Controller {
 	
 	@Override
 	public void destroy() {
-		try (FileWriter out = new FileWriter(this.dataFilePath);) {
+		try (PrintWriter out = new PrintWriter(
+				new BufferedWriter(
+						new FileWriter(this.dataFilePath)))) {
 			for (Room room : this) {
-				out.write(room.toCSVString() + "\n");
+				out.println(room.toCSVString());
 			}
-
+			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -35,14 +42,12 @@ public class RoomController extends ArrayList<Room> implements Controller {
 
 	@Override
 	public void init() {
-		try (FileReader in = new FileReader(this.dataFilePath); 
-				Scanner lineScan = new Scanner(in);) { // 스캐너 파라미터로 readable을 구현한 것을 넣을 수 있다.
+		try (BufferedReader in = new BufferedReader(
+				new FileReader(this.dataFilePath));) { // 스캐너 파라미터로 readable을 구현한 것을 넣을 수 있다.
 
 			/* StringBuffer buf = new StringBuffer(); */
 			String csv = null;
-			while (lineScan.hasNextLine()) {
-				csv = lineScan.nextLine();
-				
+			while ((csv = in.readLine()) != null) {
 					try {
 						this.add(new Room(csv));
 					} catch (CSVFormatException e) {
