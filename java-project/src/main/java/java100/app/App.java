@@ -4,7 +4,6 @@ package java100.app;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -34,7 +33,6 @@ public class App {
 		controllerMap.put("/member", new MemberController("./data/member.csv"));
 		controllerMap.put("/board", new BoardController("./data/board.csv"));
 		controllerMap.put("/room", new RoomController("./data/room.csv"));
-
 	}
 
 	void service() throws Exception {
