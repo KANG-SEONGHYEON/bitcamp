@@ -1,6 +1,6 @@
-/*  ver 08
- * - 클래스를 관리하기 쉽도록 별도의 파일로 분리한다.
- * - 메서드를 사용하여 반복 코드를 분리한다.
+/*  ver 10
+ * - 생성자를 이용하여 인스턴스를 초기화시키라
+ * - 인스턴스를 다루는 메서드는 인스턴스 메서드로 전환하라.
  * 
  * 여러 명의 성적을 저장하고 다음과 같이 출력하라!
  * 
@@ -11,47 +11,17 @@
  */
 
 public class App {
-	
-	// 합계와 평균을 계산하는 코드를 다음과 같이 별도의 메서드로 분리한다.
-	static void compute(Score score) {
-		for (int sub : score.subjects) {
-			score.sum += sub;
-		}
-		score.aver = score.sum / 3f;
-	}
-
-	// 성적 데이터를 출력하는 코드를 별도의 메서드로 분리한다. 
-	static void print(Score score) {
-		System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",
-				score.name, 
-				score.subjects[0], 
-				score.subjects[1], 
-				score.subjects[2], 
-				score.sum, 
-				score.aver);
-	}
-	
-	// 성적 데이터를 저장하는 코드를 별도의 메서드로 분리한다.
-	static void init(Score score, String name, int kor, int eng, int math) {
-		score.name = name;
-    	score.subjects[0] = kor;
-    	score.subjects[1] = eng;
-    	score.subjects[2] = math;
-    	
-    	compute(score);
-	}
-	
     public static void main(String[] args) {
-    	
-    	Score[] scores = {new Score(), new Score(), new Score()};
-    	
-    	init(scores[0],"홍길동", 100, 90, 80);
-    	init(scores[1],"임꺽정", 80, 80, 80);
-    	init(scores[2],"유관순", 100, 100, 100);
+    	// Score 설계도에 따라 메모리를 준비한다.
+    	Score[] scores = {
+    			new Score("홍길동", 100, 90, 80),
+    			new Score("임꺽정", 80, 80, 80), 
+    			new Score("유관순", 100, 100, 100)
+    	};
     	
     	// 학생 성적을 출력한다.
     	for (Score s : scores) {
-    		print(s);
+    		s.print();
     	}
     	
     }
