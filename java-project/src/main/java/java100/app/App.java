@@ -1,4 +1,4 @@
-//: ## ver 36
+//: ## ver 38
 
 package java100.app;
 
@@ -29,10 +29,22 @@ public class App {
 	HashMap<String, Controller> controllerMap = new HashMap<>();
 
 	void init() {
-		controllerMap.put("/score", new ScoreController("./data/score.csv"));
-		controllerMap.put("/member", new MemberController("./data/member.csv"));
-		controllerMap.put("/board", new BoardController("./data/board.csv"));
-		controllerMap.put("/room", new RoomController("./data/room.csv"));
+		ScoreController scoreController = new ScoreController(); 
+		scoreController.init();
+		
+		MemberController memberController = new MemberController(); 
+		memberController.init();
+
+		RoomController roomController = new RoomController(); 
+		roomController.init();
+		
+		BoardController boardController = new BoardController(); 
+		boardController.init();
+		
+		controllerMap.put("/score", scoreController);
+		controllerMap.put("/member", memberController);
+		controllerMap.put("/board", boardController);
+		controllerMap.put("/room", roomController);
 	}
 
 	void service() throws Exception {
