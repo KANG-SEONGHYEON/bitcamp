@@ -12,11 +12,13 @@ public class Member {
     
     public Member() {}
     
-    public Member(int no, String name, String email) {
+    public Member(int no, String name, String email, Date createdDate) {
     	this.no = no;
         this.name = name;
         this.email = email;
+        this.createdDate = createdDate;
     }
+
 
 	@Override
 	public String toString() {
@@ -63,6 +65,8 @@ public class Member {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
     
 }
 

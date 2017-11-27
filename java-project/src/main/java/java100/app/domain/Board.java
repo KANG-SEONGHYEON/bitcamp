@@ -17,6 +17,7 @@ public class Board {
     	this.content = content;
     	this.regDate = new Date(System.currentTimeMillis());
     	this.title = title;
+    	this.viewCount = viewCount;
     }
     
     @Override
