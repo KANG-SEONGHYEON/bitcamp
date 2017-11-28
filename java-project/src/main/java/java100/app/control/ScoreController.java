@@ -8,8 +8,12 @@ import java100.app.domain.Score;
 
 public class ScoreController implements Controller {
 
-	ScoreDao scoreDao = new ScoreDao();
-	
+	ScoreDao scoreDao;
+
+	public void setScoreDao(ScoreDao scoreDao) {
+		this.scoreDao = scoreDao;
+	}
+
 	@Override
 	public void destroy() {}
 
@@ -34,22 +38,22 @@ public class ScoreController implements Controller {
 	private void doDelete(Request request, Response response) {
 		PrintWriter out = response.getWriter();
 		out.println("[성적 삭제]");
-		
+
 		try {
 			int no = Integer.parseInt(request.getParameter("no"));
-			
-			
+
+
 			if (scoreDao.delete(no) > 0) {
 				out.println("삭제했습니다.");
 			} else {
 				out.printf("'%d'의 성적 정보가 없습니다.\n", no);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace(); // for developer
 			out.println(e.getMessage()); // for user
 		}
-		
+
 	}
 
 	private void doUpdate(Request request, Response response) {
@@ -63,13 +67,13 @@ public class ScoreController implements Controller {
 			score.setKor(Integer.parseInt(request.getParameter("kor")));
 			score.setEng(Integer.parseInt(request.getParameter("eng")));
 			score.setMath(Integer.parseInt(request.getParameter("math")));
-			
+
 			if (scoreDao.update(score) > 0) {
-			out.println("변경하였습니다.");
+				out.println("변경하였습니다.");
 			} else {
 				out.printf("'%s'의 성적 정보가 없습니다.\n", score.getNo());
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace(); // for developer
 			out.println(e.getMessage()); // for user
@@ -80,13 +84,13 @@ public class ScoreController implements Controller {
 
 		PrintWriter out = response.getWriter();
 		out.println("[성적 상세 정보]");
-		
+
 		try {
-			
+
 			int no = Integer.parseInt(request.getParameter("no"));
-			
+
 			Score score = scoreDao.selectOne(no);
-			
+
 			if (score != null) {
 				out.printf("번호: %d\n", score.getNo());
 				out.printf("이름: %s\n", score.getName());
@@ -95,11 +99,11 @@ public class ScoreController implements Controller {
 				out.printf("수학: %d\n", score.getMath());
 				out.printf("합계: %d\n", score.getSum());
 				out.printf("평균: %.1f\n", score.getAver());
-				
+
 			} else {
 				out.printf("'%s'의 성적 정보가 없습니다.\n", no);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace(); // for developer
 			out.println(e.getMessage()); // for user
@@ -109,7 +113,7 @@ public class ScoreController implements Controller {
 	private void doList(Request request, Response response) {
 		PrintWriter out = response.getWriter();
 		out.println("[성적 목록]");
-		
+
 		try {
 			List<Score> list = scoreDao.selectList();
 			for (Score score : list) {
@@ -119,7 +123,7 @@ public class ScoreController implements Controller {
 						score.getSum(), 
 						score.getAver());
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace(); // for developer
 			out.println(e.getMessage()); // for user
@@ -135,10 +139,10 @@ public class ScoreController implements Controller {
 			score.setKor(Integer.parseInt(request.getParameter("kor")));
 			score.setEng(Integer.parseInt(request.getParameter("eng")));
 			score.setMath(Integer.parseInt(request.getParameter("math")));
-			
+
 			scoreDao.insert(score);
 			out.println("저장하였습니다.");
-			
+
 		} catch (Exception e) {
 			e.printStackTrace(); // for developer
 			out.println(e.getMessage()); // for user

@@ -10,37 +10,41 @@ import java100.app.domain.Room;
 // Controller라는 규칙을 따르는 클래스이기도 하다!
 public class RoomController implements Controller {
 
-	RoomDao roomDao = new RoomDao();
-	
-    @Override
-    public void destroy() {}
-    
-    @Override
-    public void init() {}
-    
-    
-    // 다음 메서드는 Controller 규칙을 따르기로 했기 때문에,
-    // Controller 선언된 추상 메서드를 오버라이딩 한 것이다.
-    // 만약 추상 메서드를 오버라이딩 하지 않는다면,
-    // 이 클래스는 추상 클래스가 되어야 한다.
-    @Override
-    public void execute(Request request, Response response) {
-            switch (request.getMenuPath()) {
-            case "/room/list": this.doList(request, response); break;
-            case "/room/add": this.doAdd(request, response); break;
-            case "/room/delete": this.doDelete(request, response); break;
-            default: 
-            	response.getWriter().println("해당 명령이 없습니다.");
-            }
-    }
-    
-    private void doList(Request request, Response response) {
-    	PrintWriter out = response.getWriter();
-        out.println("[강의실 목록]");
-        
-        try {
+	RoomDao roomDao;
+
+	public void setRoomDao(RoomDao roomDao) {
+		this.roomDao = roomDao;
+	}
+
+	@Override
+	public void destroy() {}
+
+	@Override
+	public void init() {}
+
+
+	// 다음 메서드는 Controller 규칙을 따르기로 했기 때문에,
+	// Controller 선언된 추상 메서드를 오버라이딩 한 것이다.
+	// 만약 추상 메서드를 오버라이딩 하지 않는다면,
+	// 이 클래스는 추상 클래스가 되어야 한다.
+	@Override
+	public void execute(Request request, Response response) {
+		switch (request.getMenuPath()) {
+		case "/room/list": this.doList(request, response); break;
+		case "/room/add": this.doAdd(request, response); break;
+		case "/room/delete": this.doDelete(request, response); break;
+		default: 
+			response.getWriter().println("해당 명령이 없습니다.");
+		}
+	}
+
+	private void doList(Request request, Response response) {
+		PrintWriter out = response.getWriter();
+		out.println("[강의실 목록]");
+
+		try {
 			List<Room> list = roomDao.selectList();
-			
+
 			for (Room room : list) {
 				out.printf("%d, %s, %4s, %d\n", 
 						room.getNo(), 
@@ -48,50 +52,50 @@ public class RoomController implements Controller {
 						room.getName(),
 						room.getCapacity());
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace(); // for developer
 			out.println(e.getMessage()); // for user
 		}
-    }
-    
-    private void doAdd(Request request, Response response) {
-    	PrintWriter out = response.getWriter();
-    	out.println("[강의실 등록]");
-        try {
-        	Room room = new Room();
+	}
+
+	private void doAdd(Request request, Response response) {
+		PrintWriter out = response.getWriter();
+		out.println("[강의실 등록]");
+		try {
+			Room room = new Room();
 			room.setLocation(request.getParameter("loc"));
 			room.setName(request.getParameter("name"));
 			room.setCapacity(Integer.parseInt(request.getParameter("capacity")));
 
 			roomDao.insert(room);
 			out.println("등록 되었습니다.");
-			
+
 		} catch (Exception e) {
 			e.printStackTrace(); // for developer
 			out.println(e.getMessage()); // for user
 		}
-    } 
-    
-    private void doDelete(Request request, Response response) {
-    	PrintWriter out = response.getWriter();
-        out.println("[강의실 삭제]");
-        
-        try {
-        	int no = Integer.parseInt(request.getParameter("no"));
-			
+	} 
+
+	private void doDelete(Request request, Response response) {
+		PrintWriter out = response.getWriter();
+		out.println("[강의실 삭제]");
+
+		try {
+			int no = Integer.parseInt(request.getParameter("no"));
+
 			if (roomDao.delete(no) > 0) {
 				out.println("삭제했습니다.");
 			} else {
 				out.printf("'%d'의 강의실 정보가 없습니다.\n", no);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace(); // for developer
 			out.println(e.getMessage()); // for user
 		}
-		
-    }
+
+	}
 
 }
 
