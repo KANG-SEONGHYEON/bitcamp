@@ -1,4 +1,4 @@
-//: ## ver 45
+//: ## ver 46
 
 package java100.app;
 
@@ -23,8 +23,7 @@ public class App {
 	
 	void init() {
 		
-		beanContainer = new ApplicationContext(
-				"./bin/application-context.properties");
+		beanContainer = new ApplicationContext("java100.app");
 		
 		DataSource ds = new DataSource();
 		ds.setDriverClassName("com.mysql.jdbc.Driver");
