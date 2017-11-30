@@ -1,4 +1,4 @@
-//: ## ver 46
+//: ## ver 48
 
 package java100.app;
 
@@ -9,66 +9,54 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import java100.app.beans.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
 import java100.app.control.Controller;
 import java100.app.control.Request;
 import java100.app.control.Response;
+import java100.app.control.ScoreController;
 import java100.app.uti.DataSource;
 
+@Configuration // 이 클래스가 Spring IoC 컨테이너를 위한 설정 클래스임을 표시!
+@ComponentScan("java100.app") // @Component가 붙은 클래스를 찾을 위치
+//'basePackeges=' or 'value=' 생략 
 public class App {
 
 	ServerSocket ss;
 	
-	ApplicationContext beanContainer;
+	AnnotationConfigApplicationContext iocContainer;
 	
-	void init() {
-		
-		beanContainer = new ApplicationContext("java100.app");
+	@Bean
+	DataSource getDataSource() {
 		
 		DataSource ds = new DataSource();
 		ds.setDriverClassName("com.mysql.jdbc.Driver");
 		ds.setUrl("jdbc:mysql://localhost:3306/studydb");
 		ds.setUsername("study");
 		ds.setPassword("1111");
-
-		beanContainer.addBean("mysqlDataSource", ds);
+		return ds;
+	}
+	
+	void init() {
 		
-		beanContainer.refreshBeanFactory();
+		iocContainer = new AnnotationConfigApplicationContext(App.class);
 		
-		/*
-		ScoreDaoImpl scoreDao = new ScoreDaoImpl();
-		scoreDao.setDateSource(ds);
-
-		MemberDaoImpl memberDao = new MemberDaoImpl();
-		memberDao.setDateSource(ds);
+		/*String[] names = iocContainer.getBeanDefinitionNames();
 		
-		BoardDaoImpl boardDao = new BoardDaoImpl();
-		boardDao.setDateSource(ds);
+		for (String name : names) {
+			Object obj = iocContainer.getBean(name);
+			System.out.printf("%s ==> %s\n", name, obj.getClass().getName());
+		}*/
 		
-		RoomDaoImpl roomDao = new RoomDaoImpl();
-		roomDao.setDateSource(ds);
+		/*ScoreController scoreController = (ScoreController) iocContainer.getBean("/score");
+		if (scoreController != null) {
+			System.out.println("ScoreController 객체 있네");
+			
+		}*/
 		
-		
-		ScoreController scoreController = new ScoreController();
-		scoreController.setScoreDao(scoreDao);
-		scoreController.init();
-		ApplicationContext.addBean("/score", scoreController);
-
-		MemberController memberController = new MemberController();
-		memberController.setMemberDao(memberDao);
-		memberController.init();
-		ApplicationContext.addBean("/member", memberController);
-
-		BoardController boardController = new BoardController();
-		boardController.setBoardDao(boardDao);
-		boardController.init();
-		ApplicationContext.addBean("/board", boardController);
-
-		RoomController roomController = new RoomController();
-		roomController.setRoomDao(roomDao);
-		roomController.init();
-		ApplicationContext.addBean("/room", roomController); 
-		 */
 	}
 
 	void service() throws Exception {
@@ -89,7 +77,7 @@ public class App {
 			menuName = command.substring(0, i);
 		}
 
-		Object controller = beanContainer.getBean(menuName);
+		Object controller = iocContainer.getBean(menuName);
 
 		if (controller == null && controller instanceof Controller) {
 			out.println("해당 명령을 지원하지 않습니다.");

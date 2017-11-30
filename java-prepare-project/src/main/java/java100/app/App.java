@@ -1,12 +1,10 @@
-//: ## ver 45
-//: - 컨트롤러와 DAO 객체를 자동 생성하라!
-//: - 자동 생성할 클래스 정보를 properties 파일에 등록한 다음,
-//:   프로그램을 시작할 때 해당 파일에 등록된 클래스의 객체를 자동생성한다. 
-//: - 학습목표
-//:   - 객체를 자동 생성하는 방법을 연습한다.
-//:   - Reflection API의 활용법을 이해한다.
-//: 
-//:   
+/* ## ver 48
+ - Spring IoC 컨테이너를 사용하여 객체 관리(Bean Container) 및
+   의존 객체 주입(DI)을 자동화하라!
+ - 학습 목표
+   - Spring IoC 컨테이너의 설정 및 사용방법을 익힌다.
+   - Spring IoC 컨테이너의 역할을 이해한다.
+*/
 package java100.app;
 
 import java.io.BufferedOutputStream;
@@ -16,53 +14,89 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import java100.app.beans.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
 import java100.app.control.Controller;
 import java100.app.control.Request;
 import java100.app.control.Response;
 import java100.app.util.DataSource;
 
-//기존 방식의 문제점
-//- 컨트롤러나 DAO가 추가될 때마다 해당 객체를 생성하는 코드를 
-//App 클래스에 추가해야 한다.
-//
-//해결 방안
-//- 객체를 생성해야 하는 클래스 이름을 외부 파일에 등록한 후
-//프로그램을 시작할 때 자동으로 생성되게 한다.
-//- 변경코드  
-//1) application-context.properties 파일 생성
-//   - 자동으로 생성할 객체의 클래스 이름을 등록한다.
-//2) ApplicationContext 변경
-//   - 멤버를 개별적으로 관리할 수 있도록 인스턴스 멤버로 전환한다.
-//   - 생성자에 프로퍼티 파일을 경로를 넘겨주면, 해당 경로의 정보를 읽어서
-//     주어진 클래스의 인스턴스를 자동 생성한다.
-//   - 각 인스턴스의 셋터 메서드를 찾아서 호출한다.
-//     즉 그 객체가 원하는 의존 객체를 주입한다.
+/* 기존 방식의 문제점
+ * - 객체 관리 및 의존 객체 주입 기능이 단순하다.
+ * - 외부 파일을 이용한 객체 관리뿐만 아니라 애노테이션을 이용한 객체 관리
+ *   방법을 모두 제동하고 싶다.
+ *   
+ * 해결 방안
+ * - 이미 검증되고 널리 사용되는(Best practice) 오픈 소스를 활용하여
+ *   객체 관리와 의존 객체 주입을 자동화 하자!
+ * - Spring IoC 컨테이너를 도입하여 처리한다.
+ * - 변경 코드
+ *   0) 오픈 소스 Spring IoC 컨테이너 라이브러리를 다운로드 받는다.
+ *      => mvnrepository.com에서 spring-context 라이브러리를 찾는다.
+ *      => build.gradle에 의존 라이브러리 정보를 등록한다.
+ *      => "gradlew eclipse"를 실행하여 이클립스 설정 파일을 갱신한다.
+ *      => 이클립스 프로젝트를 "Refresh" 한다.
+ *      
+ *   1) App 클래스 변경
+ *      => 우리가 만든 ApplicationContect 대신에 Spring의 ApplicationContext를
+ *         사용한다.
+ *      => 스프링에서 규정한 방식에 맞춰 설정 관련 애노테이션을 붙인다.
+ *      
+ *   2) 컨트롤러와 DAO 클래스 변경
+ *      => 우리가 만든 @Component 애노테이션으로 대신
+ *         스프링에서 제공하는 @Component 애노테이션으로 바꾼다.
+ *         
+ *   3) 의존 객체를 주입받으려면 셋터에 @Autowired 또는 @Inject를 붙여라!
+ *      => 컨트롤러에서는 DAO를 주입받는 셋터에 붙여라!
+ *      => DAO에서는 DataSource를 주입받는 셋터에 붙여라!
+ *      
+ *   4) Autowired를 셋터에 붙이는 대신 필드에 직접 붙여라!
+ *      => 셋터에 붙이지 않고 필드에 붙여도 된다.
+ *      => 그러면 셋터는 지워도 된다.
+ *      
+ * Spring IoC 컨테이너 = Bean Container + Dependency Injection
+ * => AnnotationConfigApplicationContext
+ *    - 애노테이션을 이용하여 클래스에 설정 정보를 붙인다.
+ *    
+ * => ClassPathXmlApplicationContext
+ *    - 설정 정보를 XML 파일에 저장한다.
+ *    - 설정 정보가 들어 있는 XML 파일이 자바 클래스 경로에 놓여 있다.
+ * => FileSystemXmlApplicationContext
+ *    - 설정 정보를 XML 파일에 저장한다.
+ *    - 설정 정보가 들어 있는 XML 파일이 기타 임의의 위치에 놓여 있다.
+ *      
+ */
+
+// 이 클래스가 스프링 IoC 컨테이너를 위한 설정 클래스임을 표시!
+@Configuration
+// @Component 붙은 클래스가 어느 패키지에 있는지 표시
+@ComponentScan("java100.app")
 public class App {
 
 	ServerSocket ss;
 
-	// 빈 관리 컨테이너 객체
+	// Spring IoC 컨테이너 객체
+	AnnotationConfigApplicationContext iocContainer;
 	
-	ApplicationContext beanContainer;
-	
-	void init() {
-		
-		beanContainer = new ApplicationContext(
-				"./bin/application-context.properties");
-		
+	/* Spring IoC 컨테이너에게 getDataSource() 메서드를 호출해서
+	 * 이 메서드가 리턴한 객체를 꼭 컨테이너에 보관해 달고 표시!
+	 */
+	@Bean
+	DataSource getDataSource() {
 		DataSource ds = new DataSource();
 		ds.setDriverClassName("com.mysql.jdbc.Driver");
 		ds.setUrl("jdbc:mysql://localhost:3306/studydb");
 		ds.setUsername("study");
 		ds.setPassword("1111");
+		return ds;
+	}
+	
+	void init() {
 		
-		// 밖에서 만든 DataSource는 수동으로 빈 컨테이너에 추가한다.
-		beanContainer.addBean("mysqlDataSource", ds);
-		
-		// 다시 의존 객체 주입을 해야 한다.
-		beanContainer.refreshBeanFactory();
-
+		iocContainer = new AnnotationConfigApplicationContext(App.class);
 	}
 
 	void service() throws Exception {
@@ -85,9 +119,9 @@ public class App {
 			menuName = command.substring(0, i);
 		}
 
-		Object controller = beanContainer.getBean(menuName);
+		Object controller = iocContainer.getBean(menuName);
 
-		if (controller == null) {
+		if (controller == null && controller instanceof Controller) {
 			out.println("해당 명령을 지원하지 않습니다.");
 			return;
 		}

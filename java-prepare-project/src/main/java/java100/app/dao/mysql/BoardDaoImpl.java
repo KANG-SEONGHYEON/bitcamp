@@ -6,19 +6,25 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java100.app.dao.BoardDao;
 import java100.app.dao.DaoException;
 import java100.app.domain.Board;
 import java100.app.util.DataSource;
-
+@Component // 이 클래스의 객체를 자동 생성해야 함을 표시!
 public class BoardDaoImpl implements BoardDao {
 	
+	// 스프링 IoC 컨테이너가 DataSource 객체를 주입하도록 표시!
+	@Autowired
 	DataSource ds;
-	
-	public void setDataSource(DataSource ds) {
-		this.ds = ds;
-	}
 
+	/* DataSource를 주입 받았다 가정하고 다음 아래의 메서드들을 변경한다.
+	 * => 이렇게하면 DataSource를 얻기 위해 
+	 *    ApplicationContext를 사용한 코드를 제거해도 된다.
+	 * => 즉 더는 ApplicationContext에 종속되지 않는다.
+	 */
 	public List<Board> selectList() {
 		Connection con = null;
 		PreparedStatement pstmt = null;

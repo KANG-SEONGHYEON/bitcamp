@@ -3,11 +3,14 @@ package java100.app.control;
 import java.io.PrintWriter;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
-
+@Component("/member")
 public class MemberController implements Controller {
-	
+	@Autowired
 	MemberDao memberDao;
 	
 	public void setMemberDao(MemberDao memberDao) {

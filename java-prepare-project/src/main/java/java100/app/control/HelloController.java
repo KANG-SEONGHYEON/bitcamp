@@ -1,11 +1,9 @@
 package java100.app.control;
 
 import java.io.PrintWriter;
-import java.util.List;
 
-import java100.app.dao.RoomDao;
-import java100.app.domain.Room;
-
+import org.springframework.stereotype.Component;
+@Component("/hello")
 public class HelloController implements Controller {
     
     @Override

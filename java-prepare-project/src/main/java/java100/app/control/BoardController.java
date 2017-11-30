@@ -7,16 +7,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java100.app.dao.BoardDao;
 import java100.app.domain.Board;
-
+@Component("/board")
 public class BoardController implements Controller {
 
+	@Autowired
 	BoardDao boardDao;
-	
-	public void setBoardDao(BoardDao boardDao) {
-		this.boardDao = boardDao;
-	}
 
 	@Override
 	public void destroy() {}
