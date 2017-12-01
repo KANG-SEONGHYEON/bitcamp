@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 파라미터 엔티티
+- DTD 내에서 사용할 수 있는 상수 값
+- <!ENTITY % 이름 "값">
+-->
+<!ENTITY % string "CDATA #REQUIRED">
+
+<!ENTITY % coreatrrs
+    "name %stirng
+    id ID #REQUIRED"
+>
+<!ELEMENT items (author*, press*, book*)>
+<!ELEMENT book (#PCDATA)>
+<!ATTLIST book 
+    title %stirng
+    author IDREFS #REQUIRED
+    press IDREF #REQUIRED
+>
+<!ELEMENT author (#PCDATA)>
+<!ATTLIST author
+    %coreatrrs;
+>
+<!ELEMENT press (#PCDATA)>
+<!ATTLIST press
+    %coreatrrs;
+>
