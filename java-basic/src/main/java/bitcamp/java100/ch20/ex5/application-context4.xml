@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- String을 특정 타입으로 자동 변환하기
+    1) 프로퍼티의 값 변환기 생성
+        => MyDateEditor 클래스 생성
+    2) 변환기 인스턴스를 스프링 프로퍼티 변환기 목록에 등록해야 한다.
+ -->
+
+    <bean id="c1" class="bitcamp.java100.ch20.ex5.Car">
+        <property name="engine" value="비트엔진,16,3800"/>
+    </bean>
+    
+    <bean id="dateEditor" class="bitcamp.java100.ch20.ex5.MyDateEditor"/>
+    
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+    <property name="customEditors">
+        <map>
+            <entry key="java.sql.Date" 
+                   value="bitcamp.java100.ch20.ex5.MyDateEditor"/>
+                   
+            <entry key="bitcamp.java100.ch20.ex5.Engine" 
+                   value="bitcamp.java100.ch20.ex5.MyEngineEditor"/>
+        </map>
+    </property>
+    </bean>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
