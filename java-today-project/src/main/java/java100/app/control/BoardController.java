@@ -1,6 +1,10 @@
 package java100.app.control;
 
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,16 +41,16 @@ public class BoardController implements Controller {
 
 		PrintWriter out = response.getWriter();
 		out.println("[게시물 목록]");
-
+		
 		try {
 			List<Board> list = boardDao.selectList();
+			
 			for (Board board : list) {
 				out.printf("%d, %s, %s, %d\n",
 						board.getNo(),
 						board.getTitle(), 
 						board.getRegDate(),
-						board.getViewCount()
-						);
+						board.getViewCount());
 			}
 
 		} catch (Exception e) {
@@ -79,43 +83,64 @@ public class BoardController implements Controller {
 		PrintWriter out = response.getWriter();
 		out.println("[게시물 상세 정보]");
 
-		try {
+		try (Connection con = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/studydb", "study", "1111");
+				){
 
 			int no = Integer.parseInt(request.getParameter("no"));
 
-			Board board = boardDao.selectOne(no);
+			try (
+					PreparedStatement pstmt = con.prepareStatement(
+							"update ex_board set vwcnt = vwcnt + 1 where no=?")) {
+				pstmt.setInt(1, no);
+				pstmt.executeUpdate();
+			} catch (Exception e) {}
 
-			if (board != null) {
-				out.printf("번호: %d\n", board.getNo());
-				out.printf("제목: %s\n", board.getTitle());
-				out.printf("내용: %s\n", board.getContent());
-				out.printf("등록일: %s\n", board.getRegDate());
-				out.printf("조회수: %d\n", board.getViewCount());
-			} else {
-				out.printf("'%s'번의 게시물 정보가 없습니다.\n", no);
-			}
+			try (PreparedStatement pstmt = con.prepareStatement(
+					"select no,title,conts,regdt,vwcnt from ex_board where no=?")) {
+				pstmt.setInt(1, no);
+
+				ResultSet rs = pstmt.executeQuery();
+
+				if (rs.next()) {
+					out.printf("번호: %d\n", rs.getInt("no"));
+					out.printf("제목: %s\n", rs.getString("title"));
+					out.printf("내용: %s\n", rs.getString("conts"));
+					out.printf("등록일: %s\n", rs.getDate("regdt"));
+					out.printf("조회수: %d\n", rs.getInt("vwcnt"));
+				} else {
+					out.printf("'%s'번의 게시물 정보가 없습니다.\n", 
+							request.getParameter("no"));
+				}
+				rs.close();
+			} catch (Exception e) {}
 
 		} catch (Exception e) {
 			e.printStackTrace(); // for developer
 			out.println(e.getMessage()); // for user
 		}
-	} 
+	}
 
 	private void doUpdate(Request request, Response response) {
 
 		PrintWriter out = response.getWriter();
 		out.println("[게시물 변경]");
 
-		try {
-			Board board = new Board();
-			board.setTitle(request.getParameter("title"));
-			board.setContent(request.getParameter("content"));
-			board.setNo(Integer.parseInt(request.getParameter("no")));
+		try (Connection con = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/studydb", "study", "1111");
+				PreparedStatement pstmt = con.prepareStatement(
+						"update ex_board set title=?, conts=? where no=?");
+				){
 
-			if (boardDao.update(board) > 0) {
+			pstmt.setString(1, request.getParameter("title"));
+			pstmt.setString(2, request.getParameter("content"));
+			pstmt.setInt(3, Integer.parseInt(request.getParameter("no")));
+
+			if (pstmt.executeUpdate() > 0) {
 				out.println("변경하였습니다.");
 			} else {
-				out.printf("'%s'번 게시물이 없습니다.\n", board.getNo());
+				out.printf("'%s'번 게시물이 없습니다.\n", 
+						request.getParameter("no"));
 			}
 
 		} catch (Exception e) {
@@ -131,11 +156,12 @@ public class BoardController implements Controller {
 
 		try {
 			int no = Integer.parseInt(request.getParameter("no"));
+			
 
 			if (boardDao.delete(no) > 0) {
 				out.println("삭제했습니다.");
 			} else {
-				out.printf("'%s'번의 게시물 정보가 없습니다.\n", no);
+				out.printf("'%d'번의 게시물 정보가 없습니다.\n", no);
 			}
 
 		} catch (Exception e) {
