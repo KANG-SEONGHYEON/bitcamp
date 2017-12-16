@@ -28,9 +28,9 @@ public class test4 {
 				System.out.println(str);
 			} catch (Exception e) {
 				System.out.println("catch 블록 실행");
-			} catch (IOException e) {
+			} /*catch (IOException e) {
 				// 위에서 먼저 실행된 수퍼 클래스 때문에 이곳까지 예외가 오지 못함.
-			}
+			}*/
 		}
 	}
 	

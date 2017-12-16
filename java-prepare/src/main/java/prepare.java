@@ -11,7 +11,7 @@ public class prepare {
 	protected Date regDate;
 	protected int viewCount;
 	
-	public Board() {}
+	public prepare() {}
 
 	@Override
 	public String toString() {
@@ -98,13 +98,13 @@ public class prepare {
 		System.out.printf("내용? ", this.content);
 		String content = keyScan.nextLine();
 		
-		if (Prompts.confirm2("변경하시겠습니까?(y/N) ")) {
+		/*if (Prompts.confirm2("변경하시겠습니까?(y/N) ")) {
 			this.title = title;
 			this.content = content;
 			this.regDate = new Date(System.currentTimeMillis());
 			System.out.println("변경하였습니다.");
 		} else {
 			System.out.println("변경을 취소하였습니다.");
-		}
+		}*/
 	}
 }
