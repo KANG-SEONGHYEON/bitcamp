@@ -1,13 +1,7 @@
-<%@page import="java.io.PrintWriter"%>
 <%@page import="java100.app.domain.Member"%>
-<%@page import="java100.app.dao.MemberDao"%>
-<%@page import="java100.app.listener.ContextLoaderListener"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%
-	MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
-%>
-
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,20 +15,13 @@
 
 <jsp:include page="/header.jsp"/>
 		<h1>회원 상세 정보</h1>
-		<%
-			try {
-
-				int no = Integer.parseInt(request.getParameter("no"));
-				Member member = memberDao.selectOne(no);
-
-				if (member != null) {
-		%>
-		<form action='update.jsp' method='post'>
+<c:if test="${not empty member}">
+		<form action='update.do' method='post'>
 			<div class='form-group row'>
 				<label for='no' class='col-sm-2 col-form-label'>번호</label>
 				<div class='col-sm-10'>
 					<input class='form-control' readonly id='no' type='number'
-						name='no' value='<%=member.getNo()%>'>
+						name='no' value='${member.no}'>
 
 				</div>
 			</div>
@@ -42,7 +29,7 @@
 				<label for='name' class='col-sm-2 col-form-label'>이름</label>
 				<div class='col-sm-10'>
 					<input class='form-control' id='name' type='text' name='name'
-						value='<%=member.getName()%>'>
+						value='${member.name}'>
 
 				</div>
 			</div>
@@ -50,7 +37,7 @@
 				<label for='email' class='col-sm-2 col-form-label'>이메일</label>
 				<div class='col-sm-10'>
 					<input class='form-control' id='email' type='email' name='email'
-						value='<%=member.getEmail()%>'>
+						value='${member.email}'>
 
 				</div>
 			</div>
@@ -65,36 +52,24 @@
 				<label for='regdate' class='col-sm-2 col-form-label'>등록일</label>
 				<div class='col-sm-10'>
 					<input class='form-control' readonly id='regdate' type='date'
-						value='<%=member.getCreatedDate()%>'>
+						value='${member.createDate}'>
 
 				</div>
 			</div>
 			<div class='form-group row'>
 				<div class='col-sm-10'>
 					<button class='btn btn-primary btn-sm'>변경</button>
-					<a href='delete.jsp?no=<%=member.getNo()%>'
+					<a href='delete.do?no=${member.no}'
 						class='btn btn-primary btn-sm'>삭제</a>
 				</div>
 			</div>
 		</form>
-		<%
-			} else {
-		%>
+</c:if>
+<c:if test="${empty member}">
 		<p>
-			'<%=no%>'번의 회원 정보가 없습니다.
+			'${param.no}'번의 회원 정보가 없습니다.
 		</p>
-		<%
-			}
-
-			} catch (Exception e) {
-				e.printStackTrace(); // for developer
-		%>
-		<%=e.getMessage()%>
-		<%
-			}
-
-		%>
-
+</c:if>
 <jsp:include page="/footer.jsp"/>
 	</div>
 <%@ include file="../jslib.txt"%>

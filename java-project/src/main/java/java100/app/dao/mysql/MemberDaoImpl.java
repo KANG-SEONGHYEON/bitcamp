@@ -138,7 +138,7 @@ public class MemberDaoImpl implements MemberDao {
 				member.setNo(rs.getInt("no"));
 				member.setName(rs.getString("name"));
 				member.setEmail(rs.getString("email"));
-				member.setCreatedDate(rs.getDate("regdt"));
+				member.setCreateDate(rs.getDate("regdt"));
 			}
 			rs.close();
 			return member;

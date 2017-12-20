@@ -8,30 +8,30 @@ public class Member {
     protected String name;
     protected String email;
     protected String password;
-    protected Date createdDate;
+    protected Date createDate;
     
     public Member() {}
     
-    public Member(int no, String name, String email, Date createdDate) {
+    public Member(int no, String name, String email, Date createDate) {
     	this.no = no;
         this.name = name;
         this.email = email;
-        this.createdDate = createdDate;
+        this.createDate = createDate;
     }
 
 
 	@Override
 	public String toString() {
 		return "Member [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", createdDate="
-				+ createdDate + "]";
+				+ createDate + "]";
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public int getNo() {
