@@ -34,14 +34,19 @@ repositories {
     jcenter()
 }
 dependencies {
+
     // MySQL DBMS의 JDBC Driver
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
     
     // Reflection 작업을 도와주는 라이브러리
     compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
- 
+
+
     // Spring IoC 컨테이너 라이브러리
-    compile 'org.springframework:spring-context:5.0.2.RELEASE'
+    //compile 'org.springframework:spring-context:5.0.2.RELEASE'
+
+    // Spring webMVC 프레임워크
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.0.2.RELEASE'
  
     // https://mvnrepository.com/artifact/javax.servlet/jstl
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
@@ -55,6 +60,7 @@ dependencies {
     
     compile 'com.google.guava:guava:22.0'
     testCompile 'junit:junit:4.12'
+
 }
 
 
