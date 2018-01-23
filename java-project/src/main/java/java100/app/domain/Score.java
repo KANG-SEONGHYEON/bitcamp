@@ -1,9 +1,8 @@
-
 package java100.app.domain;
 
 public class Score {  
     
-	protected int no;
+    protected int no;
     protected String name;
     protected int kor;
     protected int eng;
@@ -14,30 +13,30 @@ public class Score {
     public Score() {}
     
     public Score(int no, String name, int kor, int eng, int math) {
-    	this.no = no;
-    	this.name = name;
+        this.no = no;
+        this.name = name;
         this.kor = kor;
         this.eng = eng;
         this.math = math;
         
         this.compute();
     }
-
+    
     @Override
-	public String toString() {
-		return "Score [no=" + no + ", name=" + name + ", kor=" + kor + ", eng=" + eng + ", math=" + math + ", sum="
-				+ sum + ", aver=" + aver + "]";
-	}
+    public String toString() {
+        return "Score [no=" + no + ", name=" + name + ", kor=" + kor + ", eng=" + eng + ", math=" + math + ", sum="
+                + sum + ", aver=" + aver + "]";
+    }
 
-	public int getNo() {
-		return no;
-	}
+    public int getNo() {
+        return no;
+    }
 
-	public void setNo(int no) {
-		this.no = no;
-	}
+    public void setNo(int no) {
+        this.no = no;
+    }
 
-	public String getName() {
+    public String getName() {
         return name;
     }
 

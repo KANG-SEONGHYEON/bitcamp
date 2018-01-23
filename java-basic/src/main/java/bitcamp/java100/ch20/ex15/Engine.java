@@ -2,7 +2,7 @@ package bitcamp.java100.ch20.ex15;
 
 import org.springframework.stereotype.Component;
 
-@Component("bitengine")
+@Component("bitengine") // 스프링 IoC 컨테이너에게 이 클래스의 객체를 만들어 달라고 요청!
 public class Engine {
     private String name;
     private int valve;

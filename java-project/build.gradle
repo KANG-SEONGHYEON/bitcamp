@@ -27,12 +27,15 @@ eclipse {
 compileJava {
     options.encoding = 'UTF-8'   
 }
+
 javadoc {
     options.encoding = "UTF-8"
 }
+
 repositories {
     jcenter()
 }
+
 dependencies {
 
     // MySQL DBMS의 JDBC Driver
@@ -41,14 +44,32 @@ dependencies {
     // Reflection 작업을 도와주는 라이브러리
     compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
 
+    // Mybatis 라이브러리
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.4.5'
+    
+    // mybatis-spring    
+    compile group: 'org.mybatis', name: 'mybatis-spring', version: '1.3.1'
+
+    // org.apache.commons/commons-dbcp2
+    compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
+
+    // org.springframework/spring-jdbc
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.2.RELEASE'
 
     // Spring IoC 컨테이너 라이브러리
     //compile 'org.springframework:spring-context:5.0.2.RELEASE'
 
     // Spring webMVC 프레임워크
     compile group: 'org.springframework', name: 'spring-webmvc', version: '5.0.2.RELEASE'
+    
+    // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+    // Servlet 3.0을 사용하면 필요 없음.
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.3'
+    
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
  
-    // https://mvnrepository.com/artifact/javax.servlet/jstl
+    // javax.servlet/jstl
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
  
     // JavaEE의 Servlet 기술을 지원하는 라이브러리
@@ -57,6 +78,9 @@ dependencies {
     // 프로그램을 배포하는 서블릿 컨테이너에 
     // 이 라이브러리 파일이 내장되어 있기 때문에 또 배포할 필요가 없다.
     providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+    
+    // Spring AOP 관련 라이브러리
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.13'
     
     compile 'com.google.guava:guava:22.0'
     testCompile 'junit:junit:4.12'

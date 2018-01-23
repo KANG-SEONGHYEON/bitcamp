@@ -4,45 +4,43 @@ import java.sql.Date;
 
 public class Member {
     
-	protected int no;
+    protected int no;
     protected String name;
     protected String email;
     protected String password;
-    protected Date createDate;
+    protected Date createdDate;
     
     public Member() {}
     
-    public Member(int no, String name, String email, Date createDate) {
-    	this.no = no;
+    public Member(int no, String name, String email) {
+        this.no = no;
         this.name = name;
         this.email = email;
-        this.createDate = createDate;
     }
 
+    @Override
+    public String toString() {
+        return "Member [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", createdDate="
+                + createdDate + "]";
+    }
 
-	@Override
-	public String toString() {
-		return "Member [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", createdDate="
-				+ createDate + "]";
-	}
+    public int getNo() {
+        return no;
+    }
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+    public void setNo(int no) {
+        this.no = no;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public Date getCreatedDate() {
+        return createdDate;
+    }
 
-	public int getNo() {
-		return no;
-	}
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 
-	public void setNo(int no) {
-		this.no = no;
-	}
-
-	public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -65,8 +63,6 @@ public class Member {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
     
 }
 
