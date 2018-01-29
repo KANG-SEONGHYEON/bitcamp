@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- DAO 객체를 자동으로 생성하려면,
+     namespace의 값이 인터페이스 이름과 같아야 한다. -->
+<mapper namespace="java100.app.dao.ArtistDao">
+
+    <resultMap type="artist" id="artistMap">
+        <id column="artno" property="no"/>
+        <result column="artnm" property="artistName"/>
+        <result column="artmmb" property="artistMember"/>
+        <result column="profile" property="profile"/>
+        <result column="joinDate" property="joindt"/>
+        
+    </resultMap>
+      <sql id="select1">
+        select 
+            mmbno,
+            email,
+            nicknm,
+            type,
+            msgfl,
+            msgid,
+            cancelfl,
+            regdt
+    </sql>
+
+<!--       <select id="findAll" resultMap="memberMap" parameterType="map">
+        <include refid="select1"/>
+        , AES_DECRYPT(UNHEX(pwd), 'ABCD')
+        from tb_memb    
+
+        <if test="words != null">
+	        <where>
+	            nicknm in 
+	            <foreach collection="words" item="word" 
+	                     open="(" close=")" separator=",">
+	                #{word}
+	            </foreach>
+	            or email in 
+                <foreach collection="words" item="word" 
+                         open="(" close=")" separator=",">
+                    #{word}
+                </foreach>
+	        </where>
+        </if>
+        
+        정렬 조건에 따라 SQL문을 변경한다.
+        order by 
+        <choose>
+            <when test="orderColumn == 'email' and align == 'asc'">
+                email asc
+            </when>
+            <when test="orderColumn == 'email' and align == 'desc'">
+                email desc
+            </when>
+            <when test="orderColumn == 'regdt' and align == 'asc'">
+                regdt asc
+            </when>
+            <when test="orderColumn == 'regdt' and align == 'desc'">
+                regdt desc
+            </when>
+            <when test="orderColumn == 'name' and align == 'desc'">
+                nicknm desc
+            </when>
+            <otherwise>
+                nicknm asc
+            </otherwise>
+        </choose>
+        
+        페이지징 처리
+        limit #{startIndex}, #{size}
+    </select>  
+-->
+
+
+<!--     <select id="findByNo" resultMap="memberMap" parameterType="int">
+        <include refid="select1"/>
+            , AES_DECRYPT(UNHEX(pwd), 'ABCD')
+            from tb_memb
+        where mmbno=#{value}
+    </select> 
+-->
+
+
+<!--     <select id="countAll" resultType="int">
+        select count(*) from tb_memb
+    </select> 
+-->
+
+    
+<!--     insert를 수행한 후 자동 증간된 PK 값을 받고 싶다면,
+         useGeneratedKeys 속성 값을 true설정 해야 한다.
+         또한 PK 컬럼과 그 PK 컬럼 값을 저정할 property 이름을 알려줘야 한다.
+ -->    
+    
+    <insert id="insert" parameterType="artist">
+        <selectKey resultType="int" keyProperty="no" order="BEFORE">
+            select last_insert_id()
+        </selectKey>
+            insert into tb_artist(
+            artno,
+            artnm,
+            artmmb,
+            profile,
+            joindt)
+            
+            values(
+            #{no},
+            #{artistName},
+            #{artistMember},
+            #{profile},
+            #{joinDate})
+    </insert>
+
+<!--     <update id="update" parameterType="artist">
+            artno=#{no},
+            artnm=#{artistName},
+            artmmb=#{artistMember},
+            profile=#{profile},
+            joindt=#{joinDate}
+        where artno=#{no}
+    </update> -->
+
+    <delete id="delete" parameterType="int">
+        delete from tb_artist
+        where artno=#{value}
+    </delete>
+
+</mapper>  
+
+
+
+
+
+
+
+
+
