@@ -12,7 +12,6 @@ public class Board {
     protected Member writer;
     protected List<UploadFile> files;
     
-    
     public int getNo() {
         return no;
     }
@@ -69,4 +68,15 @@ public class Board {
         this.files = files;
     }
 
+    
 }
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<script type="text/javascript">
+    function changeField(obj) {
+
+        try {
+            if(obj && rakeLog) {
+                rakeLog.sendRakeLog(obj);
+            }
+        } catch (e) {}
+
+        try{
+
+            var form = document.login_form;
+            var memLogin = document.getElementById("memLogin");
+            var nonLogin = document.getElementById("nonLogin");
+            var memCaptcha = document.getElementById("mem_captcha");
+            
+            if (obj.value=='Y') {
+                
+                if(memCaptcha){
+                    memCaptcha.style.display = "none";
+                }
+                
+                memLogin.style.display = "none";
+                nonLogin.style.display = "";
+                form.authMethod.value = "nonLogin";
+                form.loginName.value = "";
+                form.passWord.value = "";
+
+
+                
+            } else {
+                
+                if(memCaptcha){
+                    memCaptcha.style.display = "";
+                }
+                
+                memLogin.style.display = "";
+                nonLogin.style.display = "none";
+                form.authMethod.value = "login";
+
+            }
+            
+        }catch(ex){
+            Logger.LoggingMsg('로그인 자바스크립트 오류');
+        }
+    }
+</script>
+
+
+
+
+
+
+</body>
+</html>

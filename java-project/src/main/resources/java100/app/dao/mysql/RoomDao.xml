@@ -27,7 +27,7 @@
 
     <select id="findAll" resultMap="roomMap" parameterType="map">
         <include refid="select1"/>
-        from ex_room
+        from ex_room    
 
         <if test="words != null">
 	        <where>
@@ -55,6 +55,7 @@
             </otherwise>
         </choose>
         
+        <!-- 페이지징 처리 -->
         limit #{startIndex}, #{size}
     </select>
     

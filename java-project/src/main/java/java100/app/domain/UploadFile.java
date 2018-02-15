@@ -1,7 +1,6 @@
 package java100.app.domain;
 
 public class UploadFile {
-    
     int no;
     String filename;
     int boardNo;
@@ -11,7 +10,7 @@ public class UploadFile {
     public UploadFile(String filename) {
         this(0, filename);
     }
-    
+
     public UploadFile(int no, String filename) {
         this.no = no;
         this.filename = filename;
@@ -40,6 +39,5 @@ public class UploadFile {
     public void setBoardNo(int boardNo) {
         this.boardNo = boardNo;
     }
-    
     
 }

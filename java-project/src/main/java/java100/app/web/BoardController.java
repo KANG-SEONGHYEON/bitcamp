@@ -32,13 +32,15 @@ public class BoardController {
     
     @RequestMapping("list")
     public String list(
-            @RequestParam(value="pn", defaultValue="1") int pageNo, 
-            @RequestParam(value="ps", defaultValue="5") int pageSize, 
-            @RequestParam(value="title", required=false) String[] titles,
+            @RequestParam(value="pn", defaultValue="1") int pageNo,
+            @RequestParam(value="ps", defaultValue="5") int pageSize,
+            @RequestParam(value="words", required=false) String[] words,
             @RequestParam(value="oc", required=false) String orderColumn,
             @RequestParam(value="al", required=false) String align,
             Model model) throws Exception {
 
+        // UI 제어와 관련된 코드는 이렇게 페이지 컨트롤러에 두어야 한다.
+        //
         if (pageNo < 1) {
             pageNo = 1;
         }
@@ -48,17 +50,19 @@ public class BoardController {
         }
         
         HashMap<String,Object> options = new HashMap<>();
-        options.put("titles", titles);
+        if (words != null && words[0].length() > 0) {
+            options.put("words", words);
+        }
         options.put("orderColumn", orderColumn);
         options.put("align", align);
         
         int totalCount = boardService.getTotalCount();
         int lastPageNo = totalCount / pageSize;
-        
         if ((totalCount % pageSize) > 0) {
             lastPageNo++;
         }
         
+        // view 컴포넌트가 사용할 값을 Model에 담는다.
         model.addAttribute("pageNo", pageNo);
         model.addAttribute("lastPageNo", lastPageNo);
         model.addAttribute("list", boardService.list(pageNo, pageSize, options));
@@ -78,55 +82,70 @@ public class BoardController {
         
     }
     
+    // XML 설정으로 트랜잭션을 조정한다면 @Transactional 애노테이션은 필요없다.
+    //@Transactional
     @RequestMapping("add")
     public String add(
-            Board board, 
+            Board board,
             MultipartFile[] file,
             @ModelAttribute(value="loginUser") Member loginUser) throws Exception {
         
+        // 업로드 파일을 저장할 폴더 위치를 가져온다.
         String uploadDir = servletContext.getRealPath("/download");
-        
+
+        // 업로드 파일 정보를 저장할 List 객체 준비
         ArrayList<UploadFile> uploadFiles = new ArrayList<>();
         
+        // 클라이언트가 보낸 파일을 저장하고, 
+        // 그 파일명(저장할 때 사용한 파일명)을 목록에 추가한다.
         for (MultipartFile part : file) {
             if (part.isEmpty())
                 continue;
             
             String filename = this.writeUploadFile(part, uploadDir);
-            uploadFiles.add(new UploadFile(filename));
             
+            uploadFiles.add(new UploadFile(filename));
         }
-
+        
+        // Board 객체에 저장한 파일명을 등록한다. 
         board.setFiles(uploadFiles);
-        
+
+        // 게시글 작성자는 로그인 사용자이다. 
         board.setWriter(loginUser);
-        boardService.add(board);
         
+        // 게시글 등록
+        boardService.add(board);
         
         return "redirect:list";
     }
-
+    
     @RequestMapping("update")
     public String update(
             Board board, 
             MultipartFile[] file) throws Exception {
         
+        // 업로드 파일을 저장할 폴더 위치를 가져온다.
         String uploadDir = servletContext.getRealPath("/download");
-        
+
+        // 업로드 파일 정보를 저장할 List 객체 준비
         ArrayList<UploadFile> uploadFiles = new ArrayList<>();
         
+        // 클라이언트가 보낸 파일을 저장하고, 
+        // 그 파일명(저장할 때 사용한 파일명)을 목록에 추가한다.
         for (MultipartFile part : file) {
             if (part.isEmpty())
                 continue;
             
             String filename = this.writeUploadFile(part, uploadDir);
-            uploadFiles.add(new UploadFile(filename));
             
+            uploadFiles.add(new UploadFile(filename));
         }
-
-        board.setFiles(uploadFiles);
         
+        // Board 객체에 저장한 파일명을 등록한다. 
+        board.setFiles(uploadFiles);
+
         boardService.update(board);
+        
         return "redirect:list";
     }
 
@@ -140,7 +159,7 @@ public class BoardController {
     long prevMillis = 0;
     int count = 0;
     
-    // 다른 클라이언트가 보낸 파일명과 중복되지 않도록
+    // 다른 클라이언트가 보낸 파일명과 중복되지 않도록 
     // 서버에 파일을 저장할 때는 새 파일명을 만든다.
     synchronized private String getNewFilename(String filename) {
         long currMillis = System.currentTimeMillis();
@@ -166,10 +185,8 @@ public class BoardController {
         
         String filename = getNewFilename(part.getOriginalFilename());
         part.transferTo(new File(path + "/" + filename));
-        
         return filename;
-    }
-    
+    }    
 }
 
 

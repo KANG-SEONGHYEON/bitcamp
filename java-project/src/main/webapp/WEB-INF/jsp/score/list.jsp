@@ -1,14 +1,13 @@
-<%@page import="java100.app.domain.Score"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>로그인</title>
+<title>성적관리</title>
 <link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
 <link rel='stylesheet' href='../../css/common.css'>
 </head>
@@ -19,13 +18,7 @@
 
 <h1>성적 목록</h1>
 
-<div class="toolbar">
-<a href='form' class='btn btn-primary btn-sm'>추가</a>
-<form action="list" method="get" class="searchbox">
-<input type="text" name="nm">
-<button>검색</button>
-</form>
-</div>
+<jsp:include page="../listToolbar.jsp"/>
 
 <table class='table table-hover'>
 <thead>

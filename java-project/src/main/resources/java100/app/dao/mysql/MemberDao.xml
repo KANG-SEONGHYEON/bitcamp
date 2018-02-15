@@ -68,6 +68,7 @@
             </otherwise>
         </choose>
         
+        <!-- 페이지징 처리 -->
         limit #{startIndex}, #{size}
     </select>
     
@@ -77,18 +78,26 @@
         where no=#{value}
     </select>
     
-    <select id="countAll" resultType="int">
-        select count(*) from ex_memb
-    </select>
-    
     <select id="findByEmailAndPassword" 
-    resultMap="memberMap" parameterType="map">
+            resultMap="memberMap" parameterType="map">
         <include refid="select1"/>
         from ex_memb
         where email=#{email} and pwd=password(#{password})
     </select>
     
-    <insert id="insert" parameterType="member">
+    <select id="findByEmail" 
+            resultMap="memberMap" parameterType="string">
+        <include refid="select1"/>
+        from ex_memb
+        where email=#{email}
+    </select>
+    
+    <select id="countAll" resultType="int">
+        select count(*) from ex_memb
+    </select>
+    
+    <insert id="insert" parameterType="member"
+        useGeneratedKeys="true" keyColumn="no" keyProperty="no">
         insert into ex_memb(name,email,pwd,regdt)
         values(#{name},#{email},password(#{password}),now())
     </insert>

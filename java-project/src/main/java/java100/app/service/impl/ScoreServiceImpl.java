@@ -14,13 +14,12 @@ import java100.app.service.ScoreService;
 @Service
 public class ScoreServiceImpl implements ScoreService {
 
-    @Autowired
-    ScoreDao scoreDao;
+    @Autowired ScoreDao scoreDao;
     
     @Override
     public List<Score> list(int pageNo, int pageSize, Map<String, Object> options) {
         
-        HashMap<String, Object> params = new HashMap<>();
+        HashMap<String,Object> params = new HashMap<>();
         params.put("startIndex", (pageNo - 1) * pageSize);
         params.put("size", pageSize);
         
@@ -30,7 +29,7 @@ public class ScoreServiceImpl implements ScoreService {
         
         return scoreDao.findAll(params);
     }
-    
+
     @Override
     public Score get(int no) {
         return scoreDao.findByNo(no);
@@ -55,5 +54,5 @@ public class ScoreServiceImpl implements ScoreService {
     public int delete(int no) {
         return scoreDao.delete(no);
     }
-    
+
 }

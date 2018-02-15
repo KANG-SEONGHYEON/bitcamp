@@ -1,0 +1,42 @@
+<!-- DOM API 사용법 -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>HTML</title>
+</head>
+<body>
+<button id="btn">비동기 POST 요청</button><br>
+
+<script type="text/javascript">
+
+var btn = window.document.querySelector('#btn');
+
+btn.onclick = function () {
+
+var xhr = new XMLHttpRequest();
+
+xhr.onreadystatechange = function() {
+    if (xhr.readyState < 4) return;
+    
+    if (xhr.status != 200) {
+        console.log('서버 실행 오류!');
+        return;
+    }
+    
+    console.log(xhr.responseText);
+    
+};
+
+xhr.open('POST', 'http://localhost:8888/okok', true);
+
+xhr.setRequestHeader("Content-Type", "application/x-wwww-form-urlencoded");
+
+xhr.send("name=aaa&age=20&working=true");
+
+}
+
+</script>
+
+</body>
+</html>

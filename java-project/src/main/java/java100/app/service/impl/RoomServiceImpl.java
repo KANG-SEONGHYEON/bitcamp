@@ -14,13 +14,12 @@ import java100.app.service.RoomService;
 @Service
 public class RoomServiceImpl implements RoomService {
 
-    @Autowired
-    RoomDao roomDao;
+    @Autowired RoomDao roomDao;
     
     @Override
     public List<Room> list(int pageNo, int pageSize, Map<String, Object> options) {
         
-        HashMap<String, Object> params = new HashMap<>();
+        HashMap<String,Object> params = new HashMap<>();
         params.put("startIndex", (pageNo - 1) * pageSize);
         params.put("size", pageSize);
         
@@ -30,16 +29,17 @@ public class RoomServiceImpl implements RoomService {
         
         return roomDao.findAll(params);
     }
-    
+
     @Override
     public int getTotalCount() {
         return roomDao.countAll();
     }
 
     @Override
-    public int add(Room room) {
-        return roomDao.insert(room);
+    public int add(Room score) {
+        return roomDao.insert(score);
     }
+
 
     @Override
     public int delete(int no) {
